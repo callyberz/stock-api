@@ -1,0 +1,19 @@
+{
+  "defaultConnection": "default",
+  "connections": {
+    "default": {
+      "connector": "mongoose",
+      "settings": {
+        "client": "mongo",
+        "host": "3.1.168.203",
+        "port": "27017",
+        "database": "stocksys",
+        "username": "mushroom",
+        "password": "8964"
+      },
+      "options": {
+        "ssl": false
+      }
+    }
+  }
+}

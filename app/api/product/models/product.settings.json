@@ -1,0 +1,50 @@
+{
+  "connection": "default",
+  "collectionName": "products",
+  "info": {
+    "name": "product"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "cover": {
+      "collection": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false
+    },
+    "color": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "size": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "Sold",
+        "Hold",
+        "Refund",
+        "Sale"
+      ]
+    },
+    "cost": {
+      "type": "decimal"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "brand": {
+      "via": "products",
+      "model": "brand"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  strapi:
+    container_name: strapi
+    image: strapi/strapi
+    restart: always
+    environment:
+      - NODE_ENV=development
+      - DATABASE_CLIENT=mongo
+      - DATABASE_HOST=3.1.168.203
+      - DATABASE_PORT=27017
+      - DATABASE_NAME=stocksys
+      - DATABASE_USERNAME=mushroom
+      - DATABASE_PASSWORD=8964
+      - DATABASE_AUTHENTICATION_DATABASE=strapi
+    ports:
+      - 1337:1337
+    volumes:
+      - ./app:/srv/app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`groundzerohk.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.api.middlewares=api-stripprefix"
+      - "traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
+      - "traefik.http.services.api.loadbalancer.server.port=1337"
+
+networks:
+  default:
+    external:
+      name: farm
