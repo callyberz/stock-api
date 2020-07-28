@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  strapi:
+    build:
+      context: .
+      args:
+        MODE: development
+    container_name: strapi
+    image: strapi/strapi
+    restart: always
+    environment:
+      - NODE_ENV=development
+      - DATABASE_CLIENT=mongo
+      - DATABASE_HOST=cluster-lab.cvhyc.mongodb.net
+      - DATABASE_PORT=27017
+      - DATABASE_NAME=grdzero
+      - DATABASE_USERNAME=admin
+      - DATABASE_PASSWORD=fuckccp8964
+      - DATABASE_AUTHENTICATION_DATABASE=strapi
+    ports:
+      - 1337:1337
+    volumes:
+      # - ./app:/srv/app
+      - ./package.json:/opt/app/package.json
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`groundzerohk.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.api.middlewares=api-stripprefix"
+      - "traefik.http.middlewares.api-stripprefix.stripprefix.prefixes=/api"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
+      - "traefik.http.services.api.loadbalancer.server.port=1337"
+    entrypoint: /opt/app/entrypoint.sh
+    command: start
+    
+
+networks:
+  default:
+    external:
+      name: farm
